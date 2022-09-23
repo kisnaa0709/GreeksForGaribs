@@ -1,0 +1,18 @@
+{
+  "name": "my-server",
+  "version": "1.0.0",
+  "description": "My first express server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Kishan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.20",
+    "request": "^2.88.2"
+  }
+}
