@@ -1,22 +1,18 @@
-const https = require("https");
-const bodyParser = require("body-Parser");
 const express = require("express");
-
+const bodyParser = require("body-Parser");
 const request = require("request");
+const https = require("https");
 
+const app = express();
 
-
-const  app = express();
 app.use(express.static("Public"));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.urlencoded({extended: true}));
-
-app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/index.html")
-    
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/index.html")    
 });
 
-app.post("/", function (req, res){
+app.post("/", (req, res) => {
 
     const firstName = req.body.fName;
     const lastName = req.body.lName;
@@ -30,9 +26,9 @@ app.post("/", function (req, res){
             merge_fields:{
             FNAME: firstName,
             LNAME: lastName
-            }
-        }
-    ]
+            },
+        },
+    ],
     };
     const jsonData = JSON.stringify(data);
 
@@ -40,47 +36,36 @@ app.post("/", function (req, res){
 
     const options = {
         method: "POST",
-        auth: "kisnaa0709:65d9c07abc1054d16d0efc01560a7175-us14"
+        auth: "kisnaa0709:5251d4ab533879f548e3dbe80994840a-us14"
     }
-    https.request(url, options, function(response){
+    const request = https.request(url, options, function(response){
 
         if (response.statusCode === 200) {
-            res.send("sucesss")   
+            res.sendFile(__dirname + "/success.html")   
         }else{
-            res.send("failed")
+            res.sendFile(__dirname + "/failure.html")
         }
-
 
 
         response.on("data", function(data){
             console.log(JSON.parse(data));
-        })
+        });
+    });
         request.write(jsonData);
         request.end();
-    });
 });
 
-// app.get("/contact", function (req, res) {
-//     res.send("<h1>Chale jao!! Vapash Chale Jao..</h1>")
-    
-// })
 
-// app.get("/about", function (req, res) {
-//     res.send("<h1>Vo Bahut saktisali h,, Tum usse bach nhi paoge!!##</h1>")
-    
-// })
-
-// app.get("/functions", function (req, res) {
-//     res.send("<h1>No Functions..</h1>")
-    
-// })
-
+    app.post("/failure", (req, res) => {
+        res.redirect("/");
+    });
+  
 app.listen(3000, function(){
         console.log("Server Runing at 3000... ");
 })
 
 //  Api Key
-//  65d9c07abc1054d16d0efc01560a7175-us14
+//  5251d4ab533879f548e3dbe80994840a-us14
 
 //  List id
 //  093bedc2ca
